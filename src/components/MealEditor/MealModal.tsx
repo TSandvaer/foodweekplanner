@@ -85,30 +85,30 @@ const MealModal: React.FC<MealModalProps> = ({ meal, date, userId, onClose }) =>
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-2xl shadow-soft dark:shadow-soft-dark max-w-4xl w-full max-h-[90vh] overflow-y-auto transition-colors duration-300">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200/50 dark:border-gray-700/50">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
             {meal ? 'Edit Meal' : 'Add New Meal'}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-200"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="p-6 space-y-5">
           {error && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200/50 dark:border-red-800/50 rounded-xl text-red-700 dark:text-red-300 text-sm shadow-soft">
               {error}
             </div>
           )}
 
           {/* Title */}
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Meal Title *
             </label>
             <input
@@ -116,24 +116,26 @@ const MealModal: React.FC<MealModalProps> = ({ meal, date, userId, onClose }) =>
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
               placeholder="Enter meal title"
             />
           </div>
 
           {/* Description with TinyMCE */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Description & Recipe
             </label>
-            <div className="border border-gray-300 rounded-lg overflow-hidden">
+            <div className="border border-gray-200/50 dark:border-gray-600/50 rounded-xl overflow-hidden shadow-soft dark:shadow-soft-dark">
               <Editor
-                apiKey="cbrus89d52lj99swxvng16fylvy6bby4cfmhe43mwxn1hpr9" // You'll need to get this from TinyMCE
+                apiKey="cbrus89d52lj99swxvng16fylvy6bby4cfmhe43mwxn1hpr9"
+                licenseKey="gpl"
                 value={description}
                 onEditorChange={(content) => setDescription(content)}
                 init={{
                   height: 300,
                   menubar: false,
+                  branding: false,
                   plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -143,7 +145,7 @@ const MealModal: React.FC<MealModalProps> = ({ meal, date, userId, onClose }) =>
                     'bold italic forecolor | alignleft aligncenter ' +
                     'alignright alignjustify | bullist numlist outdent indent | ' +
                     'removeformat | image | help',
-                  content_style: 'body { font-family: system-ui, sans-serif; font-size: 14px }',
+                  content_style: 'body { font-family: system-ui, sans-serif; font-size: 14px; color: #374151; } body.dark { color: #f3f4f6; }',
                   // Base64 image upload for persistent embedded images
                   images_upload_handler: (blobInfo: any) => {
                     return new Promise((resolve, reject) => {
@@ -171,12 +173,12 @@ const MealModal: React.FC<MealModalProps> = ({ meal, date, userId, onClose }) =>
           {/* Ingredients */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Ingredients
               </label>
               <button
                 onClick={handleAddIngredient}
-                className="flex items-center space-x-1 px-3 py-1 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors text-sm"
+                className="flex items-center space-x-1 px-3 py-1 bg-secondary-500 text-white rounded-md hover:bg-secondary-600 transition-colors text-sm"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Ingredient</span>
@@ -190,26 +192,26 @@ const MealModal: React.FC<MealModalProps> = ({ meal, date, userId, onClose }) =>
                     type="text"
                     value={ingredient.name}
                     onChange={(e) => handleUpdateIngredient(ingredient.id, 'name', e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="flex-1 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
                     placeholder="Ingredient name"
                   />
                   <input
                     type="text"
                     value={ingredient.quantity}
                     onChange={(e) => handleUpdateIngredient(ingredient.id, 'quantity', e.target.value)}
-                    className="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="w-20 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
                     placeholder="Qty"
                   />
                   <input
                     type="text"
                     value={ingredient.unit}
                     onChange={(e) => handleUpdateIngredient(ingredient.id, 'unit', e.target.value)}
-                    className="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="w-20 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-colors"
                     placeholder="Unit"
                   />
                   <button
                     onClick={() => handleRemoveIngredient(ingredient.id)}
-                    className="p-2 text-red-400 hover:text-red-600 transition-colors"
+                    className="p-2 text-red-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -217,11 +219,11 @@ const MealModal: React.FC<MealModalProps> = ({ meal, date, userId, onClose }) =>
               ))}
 
               {ingredients.length === 0 && (
-                <div className="text-center py-6 text-gray-500">
+                <div className="text-center py-6 text-gray-500 dark:text-gray-400">
                   <p className="text-sm">No ingredients added yet</p>
                   <button
                     onClick={handleAddIngredient}
-                    className="mt-2 text-primary-600 hover:text-primary-700 text-sm font-medium"
+                    className="mt-2 text-secondary-600 dark:text-secondary-400 hover:text-secondary-700 dark:hover:text-secondary-300 text-sm font-medium transition-colors"
                   >
                     Add your first ingredient
                   </button>
@@ -232,17 +234,17 @@ const MealModal: React.FC<MealModalProps> = ({ meal, date, userId, onClose }) =>
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end space-x-3 p-6 border-t border-gray-200">
+        <div className="flex items-center justify-end space-x-3 p-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-gray-50/50 dark:bg-gray-800/50">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+            className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 shadow-soft"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={loading}
-            className="flex items-center space-x-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
+            className="flex items-center space-x-2 px-4 py-2 bg-accent-500 text-white rounded-xl hover:bg-accent-600 transition-colors disabled:opacity-50 shadow-soft"
           >
             <Save className="w-4 h-4" />
             <span>{loading ? 'Saving...' : 'Save Meal'}</span>

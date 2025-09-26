@@ -44,8 +44,11 @@ const WeekPlanner: React.FC<WeekPlannerProps> = ({ user, currentWeek }) => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+      <div className="flex items-center justify-center py-16">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-accent-500/30 border-t-accent-500 mx-auto mb-3"></div>
+          <div className="text-gray-600 dark:text-gray-400 text-sm">Loading your meal plans...</div>
+        </div>
       </div>
     );
   }
@@ -53,35 +56,47 @@ const WeekPlanner: React.FC<WeekPlannerProps> = ({ user, currentWeek }) => {
   return (
     <div className="space-y-6">
       {/* Action Bar */}
-      <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+      <div className="flex flex-col sm:flex-row gap-4 sm:items-start sm:justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Weekly Meal Plan</h2>
-          <p className="text-gray-600 mt-1">Plan your meals for the week</p>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">
+            Weekly Meal Plan
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">Plan and organize your meals for the week</p>
         </div>
         <button
           onClick={() => setShowShoppingList(true)}
-          className="flex items-center space-x-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+          className="flex items-center space-x-2 px-4 py-2 bg-accent-500 text-white text-sm rounded-lg hover:bg-accent-600 transition-colors shadow-soft"
         >
           <ShoppingCart className="w-4 h-4" />
-          <span>Shopping List</span>
+          <span className="font-medium">Shopping List</span>
         </button>
       </div>
 
       {/* Week Grid */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-2xl shadow-soft dark:shadow-soft-dark overflow-hidden transition-colors duration-300">
         {/* Header */}
-        <div className="grid grid-cols-7 border-b border-gray-200">
+        <div className="grid grid-cols-7 border-b border-gray-200/50 dark:border-gray-700/50 bg-gray-50/50 dark:bg-gray-800/50">
           {weekDays.map((day) => (
             <div
               key={formatDate(day)}
-              className={`p-4 text-center border-r border-gray-200 last:border-r-0 ${
-                isDayToday(day) ? 'bg-primary-50' : 'bg-gray-50'
+              className={`p-3 text-center border-r border-gray-200/30 dark:border-gray-700/30 last:border-r-0 transition-colors ${
+                isDayToday(day)
+                  ? 'bg-accent-50 dark:bg-accent-900/20'
+                  : ''
               }`}
             >
-              <div className={`text-sm font-medium ${isDayToday(day) ? 'text-primary-700' : 'text-gray-900'}`}>
+              <div className={`text-xs font-semibold uppercase tracking-wide ${
+                isDayToday(day)
+                  ? 'text-accent-700 dark:text-accent-300'
+                  : 'text-gray-700 dark:text-gray-300'
+              }`}>
                 {getDayName(day)}
               </div>
-              <div className={`text-xs mt-1 ${isDayToday(day) ? 'text-primary-600' : 'text-gray-500'}`}>
+              <div className={`text-xs mt-0.5 ${
+                isDayToday(day)
+                  ? 'text-accent-600 dark:text-accent-400'
+                  : 'text-gray-500 dark:text-gray-400'
+              }`}>
                 {formatDate(day, 'MMM d')}
               </div>
             </div>
@@ -103,25 +118,31 @@ const WeekPlanner: React.FC<WeekPlannerProps> = ({ user, currentWeek }) => {
       </div>
 
       {/* Mobile Day Selector (shown on small screens) */}
-      <div className="md:hidden">
+      <div className="md:hidden mt-6">
         <div className="flex space-x-2 overflow-x-auto pb-2">
           {weekDays.map((day) => (
             <button
               key={formatDate(day)}
               onClick={() => handleAddMeal(day)}
-              className={`flex-shrink-0 flex flex-col items-center p-3 rounded-lg border-2 min-w-[80px] ${
+              className={`flex-shrink-0 flex flex-col items-center p-3 rounded-xl border min-w-[70px] transition-all duration-200 shadow-soft ${
                 isDayToday(day)
-                  ? 'border-primary-500 bg-primary-50'
-                  : 'border-gray-200 bg-white hover:border-gray-300'
+                  ? 'border-accent-300/50 bg-accent-50 dark:bg-accent-900/20 shadow-accent-200/50'
+                  : 'border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-gray-800/80 hover:border-gray-300/50 dark:hover:border-gray-600/50 backdrop-blur-sm'
               }`}
             >
-              <div className={`text-xs font-medium ${isDayToday(day) ? 'text-primary-700' : 'text-gray-600'}`}>
+              <div className={`text-xs font-medium ${
+                isDayToday(day) ? 'text-accent-700 dark:text-accent-300' : 'text-gray-600 dark:text-gray-400'
+              }`}>
                 {getShortDayName(day)}
               </div>
-              <div className={`text-lg font-bold mt-1 ${isDayToday(day) ? 'text-primary-700' : 'text-gray-900'}`}>
+              <div className={`text-lg font-semibold mt-0.5 ${
+                isDayToday(day) ? 'text-accent-700 dark:text-accent-300' : 'text-gray-900 dark:text-gray-100'
+              }`}>
                 {formatDate(day, 'd')}
               </div>
-              <Plus className={`w-4 h-4 mt-1 ${isDayToday(day) ? 'text-primary-600' : 'text-gray-400'}`} />
+              <Plus className={`w-3 h-3 mt-1 ${
+                isDayToday(day) ? 'text-accent-600 dark:text-accent-400' : 'text-gray-400'
+              }`} />
             </button>
           ))}
         </div>
