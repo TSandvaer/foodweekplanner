@@ -76,28 +76,28 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ meals, onClose }) => {
   const totalCount = aggregatedIngredients.length;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-2xl shadow-soft dark:shadow-soft-dark max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col transition-colors duration-300">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-xl sm:rounded-2xl shadow-soft dark:shadow-soft-dark max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col transition-colors duration-300">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200/50 dark:border-gray-700/50">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-accent-500 rounded-xl flex items-center justify-center">
-              <ShoppingCart className="w-5 h-5 text-white" />
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200/50 dark:border-gray-700/50">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent-500 rounded-xl flex items-center justify-center">
+              <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Shopping List</h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Shopping List</h2>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 {totalCount} ingredient{totalCount !== 1 ? 's' : ''} for this week
               </p>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 sm:space-x-2">
             <button
               onClick={copyToClipboard}
-              className="flex items-center space-x-2 px-3 py-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-sm shadow-soft"
+              className="flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-2 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-xs sm:text-sm shadow-soft"
             >
               <Copy className="w-4 h-4" />
-              <span>{copied ? 'Copied!' : 'Copy'}</span>
+              <span className="hidden sm:inline">{copied ? 'Copied!' : 'Copy'}</span>
             </button>
             <button
               onClick={onClose}
@@ -110,8 +110,8 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ meals, onClose }) => {
 
         {/* Progress */}
         {totalCount > 0 && (
-          <div className="px-6 py-4 bg-gray-50/50 dark:bg-gray-800/50 border-b border-gray-200/50 dark:border-gray-700/50">
-            <div className="flex items-center justify-between text-sm mb-2">
+          <div className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-50/50 dark:bg-gray-800/50 border-b border-gray-200/50 dark:border-gray-700/50">
+            <div className="flex items-center justify-between text-xs sm:text-sm mb-2">
               <span className="text-gray-600 dark:text-gray-400">
                 {checkedCount} of {totalCount} items collected
               </span>
@@ -129,7 +129,7 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ meals, onClose }) => {
         )}
 
         {/* Ingredients List */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           {aggregatedIngredients.length === 0 ? (
             <div className="text-center py-12">
               <ShoppingCart className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
@@ -195,14 +195,14 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ meals, onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-gray-50/50 dark:bg-gray-800/50">
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+        <div className="p-4 sm:p-6 border-t border-gray-200/50 dark:border-gray-700/50 bg-gray-50/50 dark:bg-gray-800/50">
+          <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center sm:text-left">
               Check items as you shop to track progress
             </p>
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-accent-500 text-white rounded-xl hover:bg-accent-600 transition-colors shadow-soft"
+              className="w-full sm:w-auto px-4 py-2 bg-accent-500 text-white rounded-xl hover:bg-accent-600 transition-colors shadow-soft"
             >
               Done
             </button>
